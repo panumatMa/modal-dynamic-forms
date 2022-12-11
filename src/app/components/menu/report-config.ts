@@ -3,6 +3,7 @@ export enum REPORT {
   REPORT2 = "Report2",
   REPORT3 = "Report3",
   REPORT4 = "Report4",
+  REPORT5 = "Report5",
 }
 
 export enum REPORT_TYPE {
@@ -119,5 +120,31 @@ export const reportModel: ReportModal = {
         required: false,
       },
     }
+  },
+  [REPORT.REPORT5]: {
+    store: {
+      type: REPORT_TYPE.DROPDOWN,
+      label: "Store",
+      value: null,
+      rules: {
+        required: false,
+      },
+    },
+    wareHouse: {
+      type: REPORT_TYPE.DROPDOWN,
+      label: "Warehouse",
+      value: null,
+      rules: {
+        required: false,
+      },
+    },
+    orderType: {
+      type: REPORT_TYPE.DROPDOWN,
+      label: "Order Type",
+      value: null,
+      rules: {
+        required: false,
+      },
+    },
   },
 };

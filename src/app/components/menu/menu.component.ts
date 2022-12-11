@@ -41,6 +41,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         icon: "pi pi-fw pi-book",
         command: (_) => this.show(REPORT.REPORT4),
       },
+      {
+        label: "Report 5",
+        icon: "pi pi-fw pi-book",
+        command: (_) => this.show(REPORT.REPORT5),
+      },
     ];
   }
 
