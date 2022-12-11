@@ -6,6 +6,9 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
+
+  value3: any = '';
+
   model = {
     firstname: {
       type: "text",

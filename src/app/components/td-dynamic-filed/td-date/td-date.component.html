@@ -1,0 +1,28 @@
+<form [formGroup]="subFormGroup">
+  <div>
+    <label
+      >{{ field.label
+      }}<span *ngIf="isRequire" style="color: red">*</span></label
+    >
+  </div>
+  <div class="container">
+    <div>
+      <label>From</label>
+      <p-calendar
+        dateFormat="dd/mm/yy"
+        appendTo="body"
+        placeholder="DD/MM/YYY"
+        formControlName="from"
+      ></p-calendar>
+    </div>
+    <div>
+      <label>To</label>
+      <p-calendar
+        dateFormat="dd/mm/yy"
+        appendTo="body"
+        placeholder="DD/MM/YYY"
+        formControlName="to"
+      ></p-calendar>
+    </div>
+  </div>
+</form>

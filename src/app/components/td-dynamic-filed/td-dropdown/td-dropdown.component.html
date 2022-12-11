@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <div class="container">
+    <label
+      >{{ field.label
+      }}<span *ngIf="isRequire" style="color: red">*</span></label
+    >
+    <p-dropdown
+      appendTo="body"
+      [options]="stores"
+      [formControlName]="field.fieldName"
+      optionLabel="name"
+      placeholder="Please select..."
+    ></p-dropdown>
+  </div>
+</form>
