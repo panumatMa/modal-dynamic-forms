@@ -27,6 +27,7 @@ import { TdDateComponent } from "./components/td-dynamic-filed/td-date/td-date.c
 import { CalendarModule } from "primeng/calendar";
 import { TdDropdownComponent } from "./components/td-dynamic-filed/td-dropdown/td-dropdown.component";
 import { DropdownModule } from "primeng/dropdown";
+import { TdDynamicFieldDirective } from './directive/td-dynamic-field.directive';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { DropdownModule } from "primeng/dropdown";
     TdDynamicFiledComponent,
     TdDateComponent,
     TdDropdownComponent,
+    TdDynamicFieldDirective,
   ],
   bootstrap: [AppComponent],
   providers: [DialogService, MessageService],

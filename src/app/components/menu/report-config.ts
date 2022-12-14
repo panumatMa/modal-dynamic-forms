@@ -25,7 +25,8 @@ export interface DynamicFiledSetting {
   fieldName?: string;
 }
 
-export type DynamicFiled = { [x: string]: DynamicFiledSetting };
+
+export type DynamicFiled = Record<string, DynamicFiledSetting>
 export type ReportModal = { [key in REPORT]?: DynamicFiled };
 
 export const reportModel: ReportModal = {

@@ -1,6 +1,7 @@
 <form [formGroup]="dynamicFormGroup" *ngIf="dynamicFormGroup">
     <div *ngFor="let field of fields">
-        <app-td-dynamic-filed [field]="field" ></app-td-dynamic-filed>
+        <ng-container [appTdDynamicField]="field"></ng-container>
+        <!-- <app-td-dynamic-filed [field]="field" ></app-td-dynamic-filed> -->
         <!-- <app-dynamic-error [fieldName]="field.fieldName"></app-dynamic-error> -->
     </div>
 </form>
