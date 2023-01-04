@@ -13,6 +13,7 @@ export class DialogEffects {
       ofType(DialogActions.setRawValues),
       switchMap((values) => {
         const rawValues = values.payload;
+        console.log('rawValues', rawValues)
         if (rawValues?.store?.length > 3) {
           return of(
             DialogActions.setRawValuesError({ errorMessage: "ห้ามมากกว่า 3" })

@@ -93,7 +93,6 @@ export class TdDynamicFormComponent {
   }
 
   onExport() {
-    this.errorMessage = null;
     const payload = this.prepareData(this.dynamicFormGroup.value);
     this.store.dispatch(DialogActions.setRawValues({ payload }));
   }
