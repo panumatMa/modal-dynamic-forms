@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { filter } from "rxjs";
 import { DialogActions } from "src/app/stores/dialog/dialog.actions";
 import { selectDialogValues } from "src/app/stores/dialog/dialog.selector";
-import { AppState } from "src/app/stores/dialog/store";
+import { AppState } from "src/app/stores/store";
 import { TdDynamicFormComponent } from "../td-dynamic-form/td-dynamic-form.component";
 import { REPORT, reportModel } from "./report-config";
 

@@ -7,8 +7,10 @@ import {
 } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { DynamicDialogConfig } from "primeng/dynamicdialog";
+import { filter } from "rxjs";
 import { DialogActions } from "src/app/stores/dialog/dialog.actions";
-import { AppState } from "src/app/stores/dialog/store";
+import { selectDialogIsError } from "src/app/stores/dialog/dialog.selector";
+import { AppState } from "src/app/stores/store";
 import { DynamicFiled, REPORT_TYPE } from "../menu/report-config";
 
 @Component({
@@ -37,6 +39,16 @@ export class TdDynamicFormComponent {
     this.model = this.config.data.model;
     this.submit = this.config.data.onSubmit;
     this.buildForm();
+
+    this.store
+      .select(selectDialogIsError)
+      .subscribe((errorMessage) => {
+        console.log('errorMessage', errorMessage);
+        this.errorMessage = null;
+        if(errorMessage) {
+          this.errorMessage = errorMessage;
+        }
+      });
   }
 
   buildForm() {
@@ -82,17 +94,7 @@ export class TdDynamicFormComponent {
 
   onExport() {
     this.errorMessage = null;
-
-    if (
-      this.dynamicFormGroup.get("store") &&
-      this.dynamicFormGroup.get("store")?.value?.length >= 3
-    ) {
-      this.errorMessage = "ห้ามมากกว่า 3";
-      return;
-    }
     const payload = this.prepareData(this.dynamicFormGroup.value);
-    // this.submit(payload);
-
     this.store.dispatch(DialogActions.setRawValues({ payload }));
   }
 

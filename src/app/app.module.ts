@@ -33,6 +33,9 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { StoreModule } from "@ngrx/store";
 import { dialogReducer } from "./stores/dialog/dialog.reducer";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { EffectsModule } from '@ngrx/effects';
+import { DialogEffects } from "./stores/dialog/dialog.effects";
+import { ReportEffects } from "./stores/report/report.effects";
 
 @NgModule({
   imports: [
@@ -50,6 +53,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
     MultiSelectModule,
     StoreModule.forRoot({ dialog: dialogReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    EffectsModule.forRoot([DialogEffects, ReportEffects])
   ],
   declarations: [
     AppComponent,
