@@ -1,0 +1,16 @@
+<form [formGroup]="formGroup">
+  <div class="container">
+    <label
+      >{{ field.label
+      }}<span *ngIf="isRequire" style="color: red">*</span></label
+    >
+    <p-multiSelect
+      appendTo="body"
+      [options]="cities"
+      [(ngModel)]="selectedCities"
+      optionLabel="name"
+      [formControlName]="field.fieldName"
+      placeholder="Please select..."
+    ></p-multiSelect>
+  </div>
+</form>

@@ -1,8 +1,16 @@
 <form [formGroup]="dynamicFormGroup" *ngIf="dynamicFormGroup">
-    <div *ngFor="let field of fields">
-        <ng-container [appTdDynamicField]="field"></ng-container>
-        <!-- <app-td-dynamic-filed [field]="field" ></app-td-dynamic-filed> -->
-        <!-- <app-dynamic-error [fieldName]="field.fieldName"></app-dynamic-error> -->
-    </div>
+  <div *ngFor="let field of fields">
+    <ng-container [appTdDynamicField]="field"></ng-container>
+  </div>
 </form>
-<button pButton [disabled]="isDisable" type="button" label="Export" (click)="onExport()"></button>
+<button
+  [disabled]="isDisable"
+  pButton
+  type="button"
+  label="Export"
+  (click)="onExport()"
+></button>
+
+<div class="error" *ngIf="errorMessage">
+  {{ errorMessage }}
+</div>

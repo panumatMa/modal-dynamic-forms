@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { MenuItem, MessageService } from "primeng/api";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { filter } from "rxjs";
+import { DialogActions } from "src/app/stores/dialog/dialog.actions";
+import { selectDialogValues } from "src/app/stores/dialog/dialog.selector";
+import { AppState } from "src/app/stores/dialog/store";
 import { TdDynamicFormComponent } from "../td-dynamic-form/td-dynamic-form.component";
 import { REPORT, reportModel } from "./report-config";
 
@@ -14,7 +19,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogService: DialogService,
-    public messageService: MessageService
+    public messageService: MessageService,
+    private store: Store<AppState>
   ) {}
 
   ref: DynamicDialogRef;
@@ -46,13 +52,26 @@ export class MenuComponent implements OnInit, OnDestroy {
         icon: "pi pi-fw pi-book",
         command: (_) => this.show(REPORT.REPORT5),
       },
+      {
+        label: "Report 6",
+        icon: "pi pi-fw pi-book",
+        command: (_) => this.show(REPORT.REPORT6),
+      },
     ];
+
+    this.store
+      .select(selectDialogValues)
+      .pipe(filter(Boolean))
+      .subscribe((values) => {
+        console.log("values", values);
+      });
   }
 
   show(report: REPORT) {
     this.ref = this.dialogService.open(TdDynamicFormComponent, {
       data: {
         model: reportModel[report],
+        onSubmit: this.submit,
       },
       header: report,
       width: "500px",
@@ -60,6 +79,14 @@ export class MenuComponent implements OnInit, OnDestroy {
       baseZIndex: 1000,
       maximizable: true,
     });
+
+    this.ref.onClose.subscribe(() => {
+      this.store.dispatch(DialogActions.setRawValues({ payload: null }));
+    });
+  }
+
+  submit(data: any) {
+    console.log("data", data);
   }
 
   ngOnDestroy() {

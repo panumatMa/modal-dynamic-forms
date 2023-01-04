@@ -27,7 +27,12 @@ import { TdDateComponent } from "./components/td-dynamic-filed/td-date/td-date.c
 import { CalendarModule } from "primeng/calendar";
 import { TdDropdownComponent } from "./components/td-dynamic-filed/td-dropdown/td-dropdown.component";
 import { DropdownModule } from "primeng/dropdown";
-import { TdDynamicFieldDirective } from './directive/td-dynamic-field.directive';
+import { TdDynamicFieldDirective } from "./directive/td-dynamic-field.directive";
+import { TdMultiselectComponent } from "./components/td-dynamic-filed/td-multiselect/td-multiselect.component";
+import { MultiSelectModule } from "primeng/multiselect";
+import { StoreModule } from "@ngrx/store";
+import { dialogReducer } from "./stores/dialog/dialog.reducer";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 @NgModule({
   imports: [
@@ -42,6 +47,9 @@ import { TdDynamicFieldDirective } from './directive/td-dynamic-field.directive'
     ButtonModule,
     CalendarModule,
     DropdownModule,
+    MultiSelectModule,
+    StoreModule.forRoot({ dialog: dialogReducer }),
+    StoreDevtoolsModule.instrument({ maxAge: 25 }),
   ],
   declarations: [
     AppComponent,
@@ -59,6 +67,7 @@ import { TdDynamicFieldDirective } from './directive/td-dynamic-field.directive'
     TdDateComponent,
     TdDropdownComponent,
     TdDynamicFieldDirective,
+    TdMultiselectComponent,
   ],
   bootstrap: [AppComponent],
   providers: [DialogService, MessageService],

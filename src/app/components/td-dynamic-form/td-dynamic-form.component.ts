@@ -1,7 +1,14 @@
 import { Component } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Store } from "@ngrx/store";
 import { DynamicDialogConfig } from "primeng/dynamicdialog";
-import { Subject } from "rxjs";
+import { DialogActions } from "src/app/stores/dialog/dialog.actions";
+import { AppState } from "src/app/stores/dialog/store";
 import { DynamicFiled, REPORT_TYPE } from "../menu/report-config";
 
 @Component({
@@ -17,10 +24,18 @@ export class TdDynamicFormComponent {
 
   model: DynamicFiled;
 
-  constructor(private config: DynamicDialogConfig) {}
+  submit: (data: any) => void;
+
+  errorMessage: string;
+
+  constructor(
+    private config: DynamicDialogConfig,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     this.model = this.config.data.model;
+    this.submit = this.config.data.onSubmit;
     this.buildForm();
   }
 
@@ -54,6 +69,8 @@ export class TdDynamicFormComponent {
             if (rules["required"] === true) {
               return Validators.required;
             }
+          // case "max":
+          //   return this.maxArrayLengthValidator(rules["max"]);
           //add more case for future.
           default:
             return;
@@ -64,30 +81,48 @@ export class TdDynamicFormComponent {
   }
 
   onExport() {
+    this.errorMessage = null;
+
+    if (
+      this.dynamicFormGroup.get("store") &&
+      this.dynamicFormGroup.get("store")?.value?.length >= 3
+    ) {
+      this.errorMessage = "ห้ามมากกว่า 3";
+      return;
+    }
     const payload = this.prepareData(this.dynamicFormGroup.value);
-    console.table(payload)
+    // this.submit(payload);
+
+    this.store.dispatch(DialogActions.setRawValues({ payload }));
   }
 
   prepareData(rawValue: Object) {
-    return Object.keys(rawValue).reduce(
-      (previousValue: any, key: string) => {
-        if (this.model[key].type === REPORT_TYPE.DATE) {
-          return {
-            ...previousValue,
-            ...rawValue[key],
-          };
-        } else {
-          return {
-            ...previousValue,
-            [key]: rawValue[key],
-          };
-        }
-      },
-      {}
-    );
+    return Object.keys(rawValue).reduce((previousValue: any, key: string) => {
+      if (this.model[key].type === REPORT_TYPE.DATE) {
+        return {
+          ...previousValue,
+          ...rawValue[key],
+        };
+      } else {
+        return {
+          ...previousValue,
+          [key]: rawValue[key],
+        };
+      }
+    }, {});
   }
 
   get isDisable() {
     return this.dynamicFormGroup?.invalid;
+  }
+
+  maxArrayLengthValidator(length: number) {
+    return (control: AbstractControl) => {
+      const value = (control.value as any[]) || null;
+      if (value) {
+        return value.length <= length ? null : { maxArrayLength: true };
+      }
+      return null;
+    };
   }
 }

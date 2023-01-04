@@ -4,15 +4,18 @@ export enum REPORT {
   REPORT3 = "Report3",
   REPORT4 = "Report4",
   REPORT5 = "Report5",
+  REPORT6 = "Report6",
 }
 
 export enum REPORT_TYPE {
   DATE = "date",
   DROPDOWN = "dropdown",
+  MULTISELECT = "multiselect",
 }
 
 interface DynamicFiledRules {
-  required: Boolean;
+  required?: Boolean;
+  max?: number;
 }
 
 export interface DynamicFiledSetting {
@@ -20,13 +23,13 @@ export interface DynamicFiledSetting {
   label: string;
   value: any;
   rules?: DynamicFiledRules;
+  transformFn?: () => {};
 
   // add
   fieldName?: string;
 }
 
-
-export type DynamicFiled = Record<string, DynamicFiledSetting>
+export type DynamicFiled = Record<string, DynamicFiledSetting>;
 export type ReportModal = { [key in REPORT]?: DynamicFiled };
 
 export const reportModel: ReportModal = {
@@ -120,7 +123,7 @@ export const reportModel: ReportModal = {
       rules: {
         required: false,
       },
-    }
+    },
   },
   [REPORT.REPORT5]: {
     store: {
@@ -145,6 +148,17 @@ export const reportModel: ReportModal = {
       value: null,
       rules: {
         required: false,
+      },
+    },
+  },
+  [REPORT.REPORT6]: {
+    store: {
+      type: REPORT_TYPE.MULTISELECT,
+      label: "Store",
+      value: null,
+      rules: {
+        required: true,
+        max: 3,
       },
     },
   },
