@@ -5,6 +5,8 @@ import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { filter } from "rxjs";
 import { DialogActions } from "src/app/stores/dialog/dialog.actions";
 import { selectDialogValues } from "src/app/stores/dialog/dialog.selector";
+import { ReportActions } from "src/app/stores/report/report.actions";
+import { selectSaveReportSuccess } from "src/app/stores/report/report.selector";
 import { AppState } from "src/app/stores/store";
 import { TdDynamicFormComponent } from "../td-dynamic-form/td-dynamic-form.component";
 import { REPORT, reportModel } from "./report-config";
@@ -61,9 +63,20 @@ export class MenuComponent implements OnInit, OnDestroy {
 
     this.store
       .select(selectDialogValues)
-      .pipe(filter(Boolean))
+      .pipe(filter((value) => Boolean(value)))
       .subscribe((values) => {
         console.log("values", values);
+        this.store.dispatch(ReportActions.saveReportRequest(values));
+      });
+
+    this.store
+      .select(selectSaveReportSuccess)
+      .pipe(filter(Boolean))
+      .subscribe((result) => {
+        console.log("result", result);
+        if (this.ref) {
+          this.ref.close();
+        }
       });
   }
 
@@ -81,7 +94,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
 
     this.ref.onClose.subscribe(() => {
-      this.store.dispatch(DialogActions.setRawValues({ payload: null }));
+      this.store.dispatch(
+        ReportActions.saveReportResponse({ isSuccess: null })
+      );
     });
   }
 

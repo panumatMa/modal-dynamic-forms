@@ -10,7 +10,7 @@ export const reportReducer = createReducer(
   on(ReportActions.saveReportResponse, (state, newState) => {
     return {
       ...state,
-      isSuccess: newState,
+      isSuccess: newState.isSuccess,
     };
   })
 );

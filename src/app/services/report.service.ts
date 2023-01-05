@@ -7,8 +7,8 @@ import { Observable, of } from "rxjs";
 export class ReportService {
   constructor() {}
 
-  saveReport(data: any): Observable<Boolean> {
-    console.log('save report', data);
-    return of(true);
+  saveReport(data: any): Observable<any> {
+    console.log("save report", data);
+    return of({ isSuccess: true });
   }
 }

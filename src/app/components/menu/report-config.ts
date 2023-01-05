@@ -158,7 +158,6 @@ export const reportModel: ReportModal = {
       value: null,
       rules: {
         required: true,
-        max: 3,
       },
     },
   },

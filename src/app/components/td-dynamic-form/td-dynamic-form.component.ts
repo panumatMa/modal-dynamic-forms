@@ -1,9 +1,9 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from "@angular/forms";
 import { Store } from "@ngrx/store";
 import { DynamicDialogConfig } from "primeng/dynamicdialog";
@@ -17,7 +17,7 @@ import { DynamicFiled, REPORT_TYPE } from "../menu/report-config";
   templateUrl: "./td-dynamic-form.component.html",
   styleUrls: ["./td-dynamic-form.component.scss"],
 })
-export class TdDynamicFormComponent {
+export class TdDynamicFormComponent implements OnDestroy {
   dynamicFormGroup: FormGroup;
   fields = [];
 
@@ -39,15 +39,13 @@ export class TdDynamicFormComponent {
     this.submit = this.config.data.onSubmit;
     this.buildForm();
 
-    this.store
-      .select(selectDialogIsError)
-      .subscribe((errorMessage) => {
-        console.log('errorMessage', errorMessage);
-        this.errorMessage = null;
-        if(errorMessage) {
-          this.errorMessage = errorMessage;
-        }
-      });
+    this.store.select(selectDialogIsError).subscribe((errorMessage) => {
+      console.log("errorMessage", errorMessage);
+      this.errorMessage = null;
+      if (errorMessage) {
+        this.errorMessage = errorMessage;
+      }
+    });
   }
 
   buildForm() {
@@ -124,5 +122,13 @@ export class TdDynamicFormComponent {
       }
       return null;
     };
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(DialogActions.setRawValues({ payload: null }));
+    this.store.dispatch(DialogActions.setRawValuesSuccess({ payload: null }));
+    this.store.dispatch(
+      DialogActions.setRawValuesError({ errorMessage: null })
+    );
   }
 }

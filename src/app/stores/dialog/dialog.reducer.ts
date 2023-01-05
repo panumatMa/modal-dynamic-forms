@@ -9,7 +9,7 @@ export const initialState = {
 export const dialogReducer = createReducer(
   initialState,
   on(DialogActions.setRawValuesSuccess, (state, newState) => {
-    console.log(newState)
+    console.log('newState', newState);
     return {
       ...state,
       rawValue: newState.payload,
